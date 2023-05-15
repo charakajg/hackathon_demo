@@ -8,3 +8,5 @@ numpy
 spacy
 openpyxl
 textblob
+image-searcher
+face_recognition

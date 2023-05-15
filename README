@@ -1,0 +1,30 @@
+# Inspection Inspector
+
+- Inspection report inspector
+
+## Pre-requisite
+
+### Setting up EC2 Instance
+
+> 💡 We need a [g4dn.xlarge](https://instances.vantage.sh/aws/ec2/g4dn.xlarge) e2 instance with AMI **amazon/Deep Learning AMI GPU PyTorch 2.0.0 (Ubuntu 20.04) 20230401**.
+
+Edit the inbound rules such as this
+
+![inbound rules](./docs/inbound_rules_new.png)
+
+## Getting started
+
+```sh
+./connect.sh
+./upload.sh
+```
+
+```sh
+install.sh
+install_mongodb.sh
+install_gptmod.sh
+```
+
+```sh
+run.sh
+```

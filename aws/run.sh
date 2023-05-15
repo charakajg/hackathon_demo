@@ -1,5 +1,4 @@
 # Start the MongoDB service
-sudo systemctl start mongod
-
+sudo systemctl start mongodb
 
 python3 app_server/app.py
