@@ -1,1 +1,1 @@
-scp -i "hackathon_pair.pem" -r ./aws ubuntu@ec2-52-40-117-84.us-west-2.compute.amazonaws.com:/home/ubuntu
+scp -i "hackathon_pair.pem" -r ./aws ubuntu@ec2-54-167-26-226.compute-1.amazonaws.com:/home/ubuntu

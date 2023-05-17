@@ -1,9 +1,14 @@
 sudo apt-get install gnupg
-curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
-   sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
-   --dearmor
+
+sudo apt-get purge mongodb-org*
+
+curl -fsSL https://pgp.mongodb.com/server-6.0.asc |
+  sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+    --dearmor
 
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+sudo apt-get install mongodb
 
 sudo apt-get update
 
@@ -16,6 +21,8 @@ echo "mongodb-mongosh hold" | sudo dpkg --set-selections
 echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
 echo "mongodb-org-tools hold" | sudo dpkg --set-selections
 
-sudo systemctl enable mongod
+sudo systemctl enable mongodb
 sudo systemctl daemon-reload
-sudo systemctl start mongod
+sudo systemctl start mongodb
+
+mongo --eval 'db.runCommand({ connectionStatus: 1 })'
