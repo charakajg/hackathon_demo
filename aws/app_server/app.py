@@ -54,13 +54,18 @@ def find_inspection_images(filename, images_path):
 
                 # Filter the item which has a negative comment and find the after image for it
                 if item['after']['comment'] and (item['different'] == 'Y' or item['after_sentiment_bad'] == 'Y'):
-                    exit_img_path = os.path.join(images_path, to_snake_case(title))
-                    after_matched_image_path = get_image(exit_img_path, f"{item_text}. {item['after']['comment']}")
+                    entry_img_path = os.path.join(images_path, to_snake_case(title), "entry")
+                    exit_img_path = os.path.join(images_path, to_snake_case(title), "exit")
+
+                    # Get before and after image
+                    before_matched_image_path = get_image(entry_img_path, f"{item_text}. {item['before']['comment']}")
+                    after_matched_image_path = get_image(exit_img_path, f"{item_text}. {item['after']['comment']}", True)
 
                     # Update the item with matched image path
-                    filter = {"filename": filename, "data.sections.items.item": item_text}
-                    update = {"$set": {"data.sections.$[section].items.$[item].after_matched_image_path": after_matched_image_path}}
-                    array_filters = [{"section.title": {"$exists": True}}, {"item.item": item_text}]
+                    filter = {"filename": filename, "data.sections.items.item": item_text, "data.sections.title": title}
+                    update = {"$set": {"data.sections.$[section].items.$[item].before_matched_image_path": before_matched_image_path, "data.sections.$[section].items.$[item].after_matched_image_path": after_matched_image_path}}
+
+                    array_filters = [{"section.title": {"$exists": True}, "section.title": title}, {"item.item": item_text}]
                     collection.update_one(filter, update, array_filters=array_filters)
 
 
@@ -124,6 +129,15 @@ def embed_base64_images(files):
               items = section['items']
               for item in items:
                   print(item)
+                  # Check if the before image is present
+                  if "before_matched_image_path" in item:
+                    if os.path.exists(item['before_matched_image_path']):
+                      # Open the image file in binary mode and read the contents
+                      with open(item['before_matched_image_path'], 'rb') as f:
+                        img_data = f.read()
+                        img_b64 = base64.b64encode(img_data).decode('utf-8')
+                        item['before_matched_image_path'] = img_b64
+
                   # Check if the after image is present
                   if "after_matched_image_path" in item:
                     if os.path.exists(item['after_matched_image_path']):

@@ -44,6 +44,14 @@
         justify-content: space-between;
         align-items: center;
       }
+
+      .item-li {
+        border: none;
+        margin: 0;
+        display: list-item;
+        margin-left: 1em;
+      }
+
       button {
         background-color: #f44336;
         color: white;
@@ -75,6 +83,11 @@
         color: green;
         font-weight: bold;
         margin-right: 10px;
+      }
+
+      .item-image {
+        display: flex;
+        flex-flow: row;
       }
 
       .item-image > img {
@@ -150,10 +163,21 @@
             and (item['different'] == 'Y' or item['after_sentiment_bad'] == 'Y'
             ) %}
             <div class="item">
-              {{ item.item }} - {{ item.after.comment }}
-              <i>(Feedback required)</i>
+              <span>{{ item.item }}</span>
+              <div>
+                <div class="item-li">Entry - {{ item.before.comment }}</div>
+                <div class="item-li">
+                  Exit - {{ item.after.comment }} <i>(Feedback required)</i>
+                </div>
+              </div>
               {% if item.after_matched_image_path %}
               <div class="item-image">
+                {% if item.before_matched_image_path %}
+                <img
+                  src="data:image/jpeg;base64,{{ item.before_matched_image_path }}"
+                  alt="Image"
+                />
+                {% endif %}
                 <img
                   src="data:image/jpeg;base64,{{ item.after_matched_image_path }}"
                   alt="Image"

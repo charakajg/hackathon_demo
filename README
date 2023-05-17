@@ -22,7 +22,6 @@ Edit the inbound rules such as this
 ```sh
 install.sh
 install_mongodb.sh
-install_gptmod.sh
 ```
 
 ```sh
